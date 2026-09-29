@@ -1,0 +1,17 @@
+[package]
+name = "clifind"
+version = "0.1.0"
+edition = "2021"
+rust-version = "1.74"
+description = "A fast, local command finder for macOS and Linux"
+license = "MIT"
+repository = "https://github.com/rgrossharv/clifind"
+keywords = ["cli", "search", "terminal", "commands"]
+categories = ["command-line-utilities"]
+
+[profile.release]
+codegen-units = 1
+lto = true
+strip = true
+panic = "abort"
+

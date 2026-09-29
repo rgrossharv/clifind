@@ -1,0 +1,6 @@
+/target/
+publish.sh
+.DS_Store
+*.swp
+coverage/
+
