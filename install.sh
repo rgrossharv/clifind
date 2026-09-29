@@ -17,13 +17,12 @@ os="$(uname -s)"
 arch="$(uname -m)"
 case "$os/$arch" in
   Linux/x86_64|Linux/amd64) target="x86_64-unknown-linux-musl" ;;
-  Darwin/x86_64) target="x86_64-apple-darwin" ;;
   Darwin/arm64|Darwin/aarch64) target="aarch64-apple-darwin" ;;
   *) die "no prebuilt release for $os/$arch; install from source with: cargo install --git https://github.com/$repository.git clifind" ;;
 esac
 
 if [ -n "${CLIFIND_VERSION:-}" ]; then
-  version="$CLIFIND_VERSION"
+  version="${CLIFIND_VERSION#v}"
 else
   version="$(curl -fsSL "https://api.github.com/repos/$repository/releases/latest" | sed -n 's/^[[:space:]]*"tag_name"[[:space:]]*:[[:space:]]*"v\{0,1\}\([^"]*\)".*/\1/p' | head -n 1)"
 fi

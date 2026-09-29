@@ -34,32 +34,25 @@ jobs:
           path: clifind-*.tar.gz
 
   build-macos:
-    strategy:
-      matrix:
-        include:
-          - runner: macos-13
-            target: x86_64-apple-darwin
-          - runner: macos-14
-            target: aarch64-apple-darwin
-    runs-on: ${{ matrix.runner }}
+    runs-on: macos-15
     steps:
       - uses: actions/checkout@v4
       - uses: dtolnay/rust-toolchain@stable
         with:
-          targets: ${{ matrix.target }}
+          targets: aarch64-apple-darwin
       - name: Test
         run: cargo test --locked
       - name: Package
         shell: bash
         run: |
           version="${GITHUB_REF_NAME#v}"
-          cargo build --locked --release --target "${{ matrix.target }}"
+          cargo build --locked --release --target aarch64-apple-darwin
           mkdir package
-          cp "target/${{ matrix.target }}/release/clifind" package/
-          tar -C package -czf "clifind-${version}-${{ matrix.target }}.tar.gz" clifind
+          cp target/aarch64-apple-darwin/release/clifind package/
+          tar -C package -czf "clifind-${version}-aarch64-apple-darwin.tar.gz" clifind
       - uses: actions/upload-artifact@v4
         with:
-          name: macos-${{ matrix.target }}
+          name: macos-aarch64-apple-darwin
           path: clifind-*.tar.gz
 
   release:
